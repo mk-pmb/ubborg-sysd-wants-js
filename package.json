@@ -1,0 +1,33 @@
+{ "name": "ubborg-sysd-wants",
+  "version": "0.0.1",
+  "description": "Plan a symlink to express a systemd \"wants\" relation between two units.",
+  "keywords": [
+    "ubborg",
+    "systemd"
+  ],
+
+  "author": "M.K. (https://github.com/mk-pmb)",
+  "homepage": "https://github.com/mk-pmb/ubborg-sysd-wants-js/#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mk-pmb/ubborg-sysd-wants-js.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mk-pmb/ubborg-sysd-wants-js/issues"
+  },
+  "contributors": [],
+
+  "private": false, "license": "ISC",
+
+  "main": "wants.mjs",
+  "scripts": { "test": "nodemjs test/all.mjs" },
+  "directories": { "test": "test" },
+
+  "dependencies": {},
+  "devDependencies": {
+    "nodemjs": "^0.1.8"
+  },
+
+
+  "npm vs. BOM = Unexpected token": "-*- coding: UTF-8 -*-"
+}
