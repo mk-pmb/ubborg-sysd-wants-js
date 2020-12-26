@@ -29,6 +29,11 @@ This module exports one function that holds another function:
 
 ### .mask(unitName, masked)
 
+Usually, masking should not be required.
+You can enable or disable units in an overridable manner using
+__systemd presets__ (`man 5 systemd.preset`).
+Also consider using drop-in files to add specific __conditions__ to a unit.
+
 * `unitName` (string¹): The name of the symlink to be created or removed in
   `/etc/systemd/system/`.
 * `masked` (boolean): Whether the unit shall be masked.

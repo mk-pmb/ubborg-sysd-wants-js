@@ -1,5 +1,5 @@
 { "name": "ubborg-sysd-wants",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Plan a symlink to express a systemd \"wants\" relation between two units, and/or (un)mask a unit.",
   "keywords": [
     "ubborg",
