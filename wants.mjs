@@ -10,8 +10,11 @@ const sds = '/systemd/system/';
 function flatMap(l, f) { return [].concat(...l.map(f)); }
 
 
+function isSimplePath(x) { return (x && (!x.path) && x.substr && x); }
+
+
 function fullPath(f) {
-  if ((!f.path) && f.substr) { return '/lib' + sds + f; }
+  if (isSimplePath(f)) { return '/lib' + sds + f; }
   return (f.pathPre || '') + f.path + (f.pathSuf || '');
 }
 
@@ -49,10 +52,23 @@ function mask(unitName, masked) {
 }
 
 
+function preset(ovr, lines) {
+  if (isSimplePath(ovr)) { return preset({ path: ovr }, lines); }
+  return {
+    pathPre: '/lib/systemd/system-preset/',
+    pathSuf: '.preset',
+    mimeType: 'text/plain',
+    ...ovr,
+    lines: undefined,
+    content: [].concat(ovr.content || lines).join('\n').trim() + '\n',
+  };
+}
+
 
 Object.assign(sysdWants, {
 
   mask,
+  preset,
 
 });
 
