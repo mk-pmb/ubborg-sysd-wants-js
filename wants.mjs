@@ -2,14 +2,12 @@
 
 import pathLib from 'path';
 
+import isPojo from 'is-pojo';
 
 const isAry = Array.isArray;
 const sds = '/systemd/system/';
 
-
 function flatMap(l, f) { return [].concat(...l.map(f)); }
-
-
 function isSimplePath(x) { return (x && (!x.path) && x.substr && x); }
 
 
@@ -30,23 +28,25 @@ function maybeSym(d) {
 }
 
 
-function sysdWants(who, wants, what) {
-  if (isAry(who)) { return flatMap(who, u => sysdWants(u, wants, what)); }
-  if (isAry(what)) { return flatMap(what, u => sysdWants(who, wants, u)); }
+const EX = function sysdWants(opt, who, wants, what) {
+  if (!isPojo(opt)) { return EX({}, opt, who, wants, what); }
+  if (isAry(who)) { return flatMap(who, u => EX(opt, u, wants, what)); }
+  if (isAry(what)) { return flatMap(what, u => EX(opt, who, wants, u)); }
   const dest = fullPath(what);
   return {
-    pathPre: '/etc' + sds,
+    pathPre: (opt.sysdPre || '/etc') + sds,
     path: who,
     pathSuf: '.wants/' + pathLib.basename(dest),
     ...maybeSym(mustBool(wants, 'wants') && dest),
   };
-}
+};
 
 
-function mask(unitName, masked) {
-  if (Array.isArray(unitName)) { return unitName.map(u => mask(u, masked)); }
+function mask(opt, unitName, masked) {
+  if (!isPojo(opt)) { return mask({}, opt, unitName, masked); }
+  if (isAry(unitName)) { return unitName.map(u => mask(opt, u, masked)); }
   return {
-    path: '/etc' + sds + unitName,
+    path: (opt.sysdPre || '/etc') + sds + unitName,
     ...maybeSym(mustBool(masked, 'masked') && '/dev/null'),
   };
 }
@@ -65,7 +65,7 @@ function preset(ovr, lines) {
 }
 
 
-Object.assign(sysdWants, {
+Object.assign(EX, {
 
   mask,
   preset,
@@ -73,4 +73,4 @@ Object.assign(sysdWants, {
 });
 
 
-export default sysdWants;
+export default EX;

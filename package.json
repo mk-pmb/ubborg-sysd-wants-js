@@ -1,5 +1,5 @@
 { "name": "ubborg-sysd-wants",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Plan a symlink to express a systemd \"wants\" relation between two units, and/or (un)mask a unit.",
   "keywords": [
     "ubborg",
@@ -23,7 +23,9 @@
   "scripts": { "test": "nodemjs test/all.mjs" },
   "directories": { "test": "test" },
 
-  "dependencies": {},
+  "dependencies": {
+    "is-pojo": "^1.0.2"
+  },
   "devDependencies": {
     "nodemjs": "^0.1.8"
   },
